@@ -1,6 +1,6 @@
 AI Security Maturity — Build & Run
 
-**Visit - https://maturity-model-6devuspmh-jonathans-projects-680f79cb.vercel.app/
+**Launch App[https://maturity-model-app.vercel.app/]
 
 Prerequisites
 - Node.js (recommended LTS, e.g. 18+) and npm installed.
