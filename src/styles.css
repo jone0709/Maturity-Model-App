@@ -1,0 +1,208 @@
+﻿:root {
+  --bg: #0b1220;
+  --accent: #06b6d4;
+  --muted: #9aa3b2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--bg);
+}
+
+body {
+  color: #e6eef6;
+  font-family: Inter, Segoe UI, system-ui, -apple-system, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+}
+
+.app {
+  max-width: 1200px;  /* Increased from 1000px */
+  width: 90%;         /* Increased from 80% */
+  margin: 20px auto;  /* Reduced from 28px for better spacing */
+  padding: 24px;      /* Increased from 16px */
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 40px); /* Adjusted to match new margin */
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.sidebar {
+  width: 260px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.main {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.01);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  min-height: 70vh;
+}
+
+.domain-item {
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+.domain-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.domain-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.question-card {
+  background: rgba(255, 255, 255, 0.01);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  background: transparent;
+  color: var(--muted);  /* Added to ensure text is visible */
+}
+
+.btn-primary {
+  background: #06b6d4 !important; /* Use direct color instead of var */
+  color: #042026;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.02);
+  box-shadow: 0 10px 30px rgba(6, 182, 212, 0.14);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 8px 16px;  /* Added more horizontal padding */
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.02);  /* Added hover effect */
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.pie-card {
+  background: rgba(255, 255, 255, 0.01);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.site-header {
+  text-align: center;
+  margin-bottom: 30px;  /* Increased from 20px */
+}
+
+.site-header h1 {
+  font-size: 2.5rem;   /* Increased from 2rem */
+  font-weight: 700;
+  margin: 0;
+}
+
+.app-content {
+  flex: 1;
+  width: 100%;
+  padding: 0 20px;    /* Added horizontal padding */
+}
+
+.site-footer {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+.domain-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+
+<div class="app">
+  <header class="site-header">
+    <h1>AI Security Maturity Assessment</h1>
+  </header>
+
+  <!-- ...existing content... -->
+
+  <footer class="site-footer">
+    Made for the community
+  </footer>
+</div>
+
