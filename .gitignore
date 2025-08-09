@@ -1,4 +1,37 @@
+# Node / npm
 node_modules/
+npm-debug.log*
+package-lock.json
+
+# Vite output
 dist/
-.env
+
+# Editor / OS
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# logs
+logs/
+*.log
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# OneDrive / temp
+*.tmp
+
+# Optional: built PDF or CSV exports (if exported into repo by accident)
+*.pdf
+*.csv
