@@ -1,5 +1,5 @@
 ﻿// src/pages/ResultsPage.tsx
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import "chart.js/auto";
 import { Pie, Radar } from "react-chartjs-2";
 import html2pdf from "html2pdf.js";
