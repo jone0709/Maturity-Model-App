@@ -1,12 +1,14 @@
-﻿import React, { useMemo } from "react";
-import { QUESTIONS } from "../lib/questions";
-import type { Answer } from "../App";
+﻿// src/pages/ResultsPage.tsx
+import React, { useMemo, useRef } from "react";
+import "chart.js/auto";
 import { Pie, Radar } from "react-chartjs-2";
 import html2pdf from "html2pdf.js";
-import "chart.js/auto";
-import React, { useMemo, useRef } from "react"; // ... export default function ResultsPage({ answers }: { answers: Answer[] }) { const printRef = useRef<HTMLDivElement | null>(null);
+import { QUESTIONS } from "../lib/questions";
+import type { Answer } from "../App";
 
 export default function ResultsPage({ answers }: { answers: Answer[] }) {
+  const printRef = useRef<HTMLDivElement | null>(null);
+
   const domains = useMemo(() => {
     const m = new Map<string, number[]>();
     QUESTIONS.forEach((q) => {
@@ -44,9 +46,9 @@ export default function ResultsPage({ answers }: { answers: Answer[] }) {
           data: domainStats.map((d) => d.avg),
           backgroundColor: "rgba(6,182,212,0.12)",
           borderColor: "rgba(6,182,212,0.95)",
-          pointBackgroundColor: "rgba(6,182,212,0.95)"
-        }
-      ]
+          pointBackgroundColor: "rgba(6,182,212,0.95)",
+        },
+      ],
     };
   }, [domainStats]);
 
@@ -68,39 +70,29 @@ export default function ResultsPage({ answers }: { answers: Answer[] }) {
     URL.revokeObjectURL(url);
   }
 
-  function exportPDF() {
-    const el = document.createElement("div");
-    el.style.padding = "18px";
-    el.style.fontFamily = "Arial, Helvetica, sans-serif";
-    const h = document.createElement("h2");
-    h.innerText = "AI Security Maturity Report";
-    el.appendChild(h);
-    const t = document.createElement("div");
-    t.innerText = `Generated: ${new Date().toLocaleString()}`;
-    t.style.marginBottom = "8px";
-    el.appendChild(t);
+  async function exportPDF() {
+    const element = printRef.current ?? document.body;
+    // hide primary UI buttons briefly for a cleaner export (optional)
+    const buttons = document.querySelectorAll(".btn");
+    buttons.forEach((b) => (b as HTMLElement).style.visibility = "hidden");
 
-    const overallAvg =
-      domainStats.reduce((acc, d) => acc + d.avg * d.answered, 0) / Math.max(1, domainStats.reduce((acc, d) => acc + d.answered, 0));
-    const overallLevel = Math.round(overallAvg) + 1;
-    const odiv = document.createElement("div");
-    odiv.innerHTML = `<strong>Overall</strong><div>Avg: ${overallAvg.toFixed(2)} â€” Level: L${overallLevel}</div><hr/>`;
-    el.appendChild(odiv);
+    const opt = {
+      margin: 12,
+      filename: "ai-security-maturity-report.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
 
-    domainStats.forEach((d) => {
-      const dd = document.createElement("div");
-      dd.innerHTML = `<h4>${d.domain} â€” L${d.maturity}</h4><div>Avg ${d.avg.toFixed(2)} (${d.answered}/${d.total})</div>`;
-      el.appendChild(dd);
-    });
-
-    html2pdf()
-      .from(el)
-      .set({ filename: "ai-security-maturity-report.pdf", margin: 12 })
-      .save();
+    try {
+      await html2pdf().from(element).set(opt).save();
+    } finally {
+      buttons.forEach((b) => (b as HTMLElement).style.visibility = "");
+    }
   }
 
   return (
-    <div style={{ display: "flex", gap: 16, width: "100%" }}>
+    <div ref={printRef} style={{ display: "flex", gap: 16, width: "100%" }}>
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <div>
@@ -109,12 +101,8 @@ export default function ResultsPage({ answers }: { answers: Answer[] }) {
           </div>
 
           <div style={{ display: "flex", gap: 8 }}>
-            <button className="btn btn-primary" onClick={downloadCSV}>
-              Download CSV
-            </button>
-            <button className="btn btn-ghost" onClick={exportPDF}>
-              Export PDF
-            </button>
+            <button className="btn btn-primary" onClick={downloadCSV}>Download CSV</button>
+            <button className="btn btn-ghost" onClick={exportPDF}>Export PDF</button>
           </div>
         </div>
 
@@ -132,16 +120,14 @@ export default function ResultsPage({ answers }: { answers: Answer[] }) {
               <div key={d.domain} className="pie-card">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ fontWeight: 700 }}>{d.domain}</div>
-                  <div className="small">
-                    L{d.maturity} â€” avg {d.avg.toFixed(2)}
-                  </div>
+                  <div className="small">L{d.maturity} — avg {d.avg.toFixed(2)}</div>
                 </div>
 
                 <div style={{ height: 180, marginTop: 8 }}>
                   <Pie
                     data={{
                       labels: ["0", "1", "2", "3", "4"],
-                      datasets: [{ data: d.counts, backgroundColor: ["#ef4444", "#f59e0b", "#facc15", "#06b6d4", "#16a34a"] }]
+                      datasets: [{ data: d.counts, backgroundColor: ["#ef4444", "#f59e0b", "#facc15", "#06b6d4", "#16a34a"] }],
                     }}
                   />
                 </div>
@@ -154,7 +140,6 @@ export default function ResultsPage({ answers }: { answers: Answer[] }) {
       <div style={{ width: 320 }}>
         <div className="pie-card">
           <div style={{ fontWeight: 700 }}>Summary</div>
-
           <div style={{ marginTop: 8 }}>
             {domainStats.map((d) => (
               <div key={d.domain} style={{ marginBottom: 8 }}>
@@ -174,7 +159,3 @@ export default function ResultsPage({ answers }: { answers: Answer[] }) {
     </div>
   );
 }
-
-
-
-
